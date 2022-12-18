@@ -4,7 +4,7 @@ CREATE TABLE `Currencies` (
   `Code` varchar(100) NOT NULL,
   `Symbol` varchar(100) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 
 INSERT INTO TimeSheet.Currencies (Name, Code, Symbol) VALUES ('Leke', 'ALL', 'Lek'),
  ('Dollars', 'USD', '$'),
@@ -124,8 +124,10 @@ CREATE TABLE `Rates` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(100) NOT NULL,
   `Rate` float NOT NULL,
+  `CorrencyID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  CONSTRAINT `Rate_FK` FOREIGN KEY (`ID`) REFERENCES `Currencies` (`ID`)
+  KEY `Rates_FK` (`CorrencyID`),
+  CONSTRAINT `Rates_FK` FOREIGN KEY (`CorrencyID`) REFERENCES `Currencies` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Taxes` (
@@ -145,31 +147,46 @@ CREATE TABLE `Addresses` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 CREATE TABLE `Users` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(100) NOT NULL,
-  `Kvk` varchar(100) NOT NULL,
   `Password` varchar(255) NOT NULL,
+  `UserName` varchar(100) NOT NULL,
+  `FirstName` varchar(100) NOT NULL,
+  `LastName` varchar(100) NOT NULL,
+  `KVK` varchar(100) DEFAULT NULL,
+  `AddressID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  CONSTRAINT `User_FK` FOREIGN KEY (`ID`) REFERENCES `Addresses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `Users_FK` (`AddressID`),
+  CONSTRAINT `Users_FK` FOREIGN KEY (`AddressID`) REFERENCES `Addresses` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Companies` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(100) NOT NULL,
   `RegistrationNumber` varchar(100) DEFAULT NULL,
+  `AddressID` int(11) NOT NULL,
+  `RateID` int(11) NOT NULL,
+  `TaxID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  CONSTRAINT `Companies_FK` FOREIGN KEY (`ID`) REFERENCES `Addresses` (`id`),
-  CONSTRAINT `Companies_FK_1` FOREIGN KEY (`ID`) REFERENCES `Taxes` (`ID`),
-  CONSTRAINT `Companies_FK_2` FOREIGN KEY (`ID`) REFERENCES `Rates` (`ID`)
+  KEY `Companies_FK` (`AddressID`),
+  KEY `Companies_FK_1` (`RateID`),
+  KEY `Companies_FK_2` (`TaxID`),
+  CONSTRAINT `Companies_FK` FOREIGN KEY (`AddressID`) REFERENCES `Addresses` (`id`),
+  CONSTRAINT `Companies_FK_1` FOREIGN KEY (`RateID`) REFERENCES `Rates` (`ID`),
+  CONSTRAINT `Companies_FK_2` FOREIGN KEY (`TaxID`) REFERENCES `Taxes` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `Entries` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Start` datetime NOT NULL,
   `End` datetime NOT NULL,
+  `CompanyID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  CONSTRAINT `Entries_FK` FOREIGN KEY (`ID`) REFERENCES `Companies` (`ID`),
-  CONSTRAINT `Entries_FK_1` FOREIGN KEY (`ID`) REFERENCES `Users` (`ID`)
+  KEY `Entries_FK` (`UserID`),
+  KEY `Entries_FK_1` (`CompanyID`),
+  CONSTRAINT `Entries_FK` FOREIGN KEY (`UserID`) REFERENCES `Users` (`ID`),
+  CONSTRAINT `Entries_FK_1` FOREIGN KEY (`CompanyID`) REFERENCES `Companies` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

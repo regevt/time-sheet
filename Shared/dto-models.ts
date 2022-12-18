@@ -1,24 +1,24 @@
-export interface Currency {
+export interface CurrencyDTO {
   ID: number;
   Name: string;
   Code: string;
   Symbol: string;
 }
 
-export interface Rate {
+export interface RateDTO {
   ID: number;
   Name: string;
   Rate: number;
-  Currency: Currency;
+  CurrencyID: number;
 }
 
-export interface Tax {
+export interface TaxDTO {
   ID: number;
   Name: string;
   Percentage: number;
 }
 
-export interface Address {
+export interface AddressDTO {
   ID: number;
   Street: string;
   HouseNumber?: number;
@@ -27,29 +27,29 @@ export interface Address {
   ZipCode?: string;
 }
 
-export interface User {
+export interface UserDTO {
   ID: number;
   FirstName: string;
   LastName: string;
   KVK?: string;
-  Address: Address;
+  AddressID: number;
   Password: string;
   UserName: string;
 }
 
-export interface Company {
+export interface CompanyDTO {
   ID: number;
   Name: string;
   RegistrationNumber?: string;
-  Address: Address;
-  Tax: Tax;
-  Rate: Rate;
+  AddressID: number;
+  TaxID: number;
+  RateID: number;
 }
 
-export interface Entry {
+export interface EntryDTO {
   ID: number;
   Start: Date;
   End: Date;
-  Company: Company;
-  User: User;
+  CompanyID: number;
+  UserID: number;
 }
