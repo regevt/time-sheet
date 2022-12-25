@@ -61,7 +61,7 @@ export const insert = async (query: string, prams?: any[]): Promise<number> => {
   const res = await conn.query(query, prams);
   console.log(res);
 
-  return res.insertId;
+  return Number(res.insertId.toString());
 };
 
 // export const executeInsert = async (query: string, prams?: any[]): Promise<number> => {

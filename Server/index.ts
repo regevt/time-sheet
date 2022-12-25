@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import companyRouter from "./src/Company/company-router";
 import listsRouter from "./src/lists/lists-router";
 import userRouter from "./src/Users/user-router";
+import taxAndRateRouter from "./src/TaxAndRates/tax-and-rates-router";
 
 const app: Express = express();
 const port = Number(process.env.PORT) ?? 8080;
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 app.use(userRouter());
 app.use(companyRouter());
 app.use(listsRouter());
+app.use(taxAndRateRouter());
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

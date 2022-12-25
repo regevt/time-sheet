@@ -14,16 +14,22 @@ export const getUserByUserName = async (userName: string): Promise<User | undefi
   return user.length ? user[0] : undefined;
 };
 
-export const createUser = async (userName: string, password: string, firstName: string, lastName: string, kvk: string, address: number) => {
+export const getUserByApiKey = async (apiKey: string): Promise<User | undefined> => {
+  console.log("getUserByUserName");
+  const user = await executeQuery<User[]>(`select * from ${Tables.Users} where ApiKey = "${apiKey}" LIMIT 1`);
+  return user.length ? user[0] : undefined;
+};
+
+export const createUser = async (userName: string, password: string, firstName: string, lastName: string, kvk: string, address: number, ApiKey?: string) => {
   console.log("createUser");
 
   const res = await insert(
     `
   INSERT INTO ${Tables.Users}
-  (Password, UserName, FirstName, LastName, KVK, AddressID )
-  VALUES(?,?,?,?,?,?);
+  (Password, UserName, FirstName, LastName, KVK, AddressID, ApiKey )
+  VALUES(?,?,?,?,?,?,?);
   `,
-    [password, userName, firstName, lastName, kvk, address]
+    [password, userName, firstName, lastName, kvk, address, ApiKey]
   );
   return res;
 };

@@ -31,9 +31,11 @@ export async function createUser(req: Request, res: Response, next: NextFunction
       return res.status(400).send("Error creating user");
     }
 
+    const apiKey = await hashingService.hashPassword(`${userName}-${firstName}-${lastName}`);
+
     const hashedPassword = await hashingService.hashPassword(password);
-    await userDto.createUser(userName, hashedPassword, firstName, lastName, kvk, addressId);
-    return res.status(200).end();
+    await userDto.createUser(userName, hashedPassword, firstName, lastName, kvk, addressId, apiKey);
+    return res.status(200).json({ apiKey }).end();
   } catch (err) {
     return next(err);
   }

@@ -35,6 +35,7 @@ export interface User {
   Address: Address;
   Password: string;
   UserName: string;
+  ApiKey?: string;
 }
 
 export interface Company {
