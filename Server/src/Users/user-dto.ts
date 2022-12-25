@@ -1,5 +1,5 @@
-import { Currency, User } from "../../../Shared/model-interfaces";
-import { executeQuery, insert, Tables } from "../services/db-service";
+import { User } from "../../../Shared/model-interfaces";
+import { insert, executeQuery, Tables } from "../services/db-service";
 
 export const getAppUsers = async (): Promise<User[] | undefined> => {
   console.log("getAppUsers");

@@ -1,5 +1,5 @@
-import { Company, Rate, Tax } from "../../../Shared/model-interfaces";
-import { executeQuery, insert, Tables } from "../services/db-service";
+import { Rate, Tax } from "../../../Shared/model-interfaces";
+import { insert, executeQuery, Tables } from "../services/db-service";
 
 export const createRate = async (name: string, rate: number, currencyID: number) => {
   console.log("createRate");

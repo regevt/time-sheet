@@ -1,8 +1,8 @@
 import { Company } from "../../../Shared/model-interfaces";
-import { executeQuery, insert, Tables } from "../services/db-service";
+import { insert, executeQuery, Tables } from "../services/db-service";
 
 export const getAllCompanies = async () => {
-  const users = await executeQuery<Company[]>(`select * from ${Tables.Companies}`);
+  const users = await executeQuery(`select * from ${Tables.Companies}`);
   return users;
 };
 
@@ -15,7 +15,22 @@ export const createCompany = async (name: string, registrationNumber: string, ad
   (Name, RegistrationNumber, AddressID, RateID, TaxID )
   VALUES(?,?,?,?,?);
   `,
-    [registrationNumber, name, addressID, rateID, taxID]
+    [name, registrationNumber, addressID, rateID, taxID]
   );
   return res;
+};
+export const getCompanyById = async (id: number) => {
+  console.log("createCompanyById");
+
+  const res = await executeQuery<any[]>(
+    `
+    select c.Name ,c.RegistrationNumber, a.Street, a.HouseNumber, a.City, a.Country, a.ZipCode  , r.Rate as Rate, t.Percentage as Tax from Companies c 
+    join Rates r on r.ID = c.RateID 
+    join Taxes t on t.ID = c.TaxID  
+    join Addresses a on a.ID  = c.AddressID 
+    WHERE c.ID = ?
+  `,
+    [id]
+  );
+  return res[0];
 };

@@ -18,6 +18,10 @@ export async function createUser(req: Request, res: Response, next: NextFunction
     console.log("createUser controller");
     const { userName, password, firstName, lastName, kvk, address } = req.body;
 
+    if (!userName || !password || !firstName || !lastName || !address) {
+      return res.status(400).send("Missing mandatory field");
+    }
+
     const addressId = await createAddress({
       City: address.city,
       Country: address.country,
