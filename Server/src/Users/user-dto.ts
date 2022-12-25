@@ -15,7 +15,7 @@ export const getUserByUserName = async (userName: string): Promise<User | undefi
 };
 
 export const getUserByApiKey = async (apiKey: string): Promise<User | undefined> => {
-  console.log("getUserByUserName");
+  console.log("getUserByApiKey");
   const user = await executeQuery<User[]>(`select * from ${Tables.Users} where ApiKey = "${apiKey}" LIMIT 1`);
   return user.length ? user[0] : undefined;
 };

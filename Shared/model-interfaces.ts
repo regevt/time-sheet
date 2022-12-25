@@ -54,3 +54,10 @@ export interface Entry {
   Company: Company;
   User: User;
 }
+
+export interface Filter {
+  start?: Date;
+  end?: Date;
+  userId?: number;
+  companyId?: number;
+}

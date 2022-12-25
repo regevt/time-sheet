@@ -23,15 +23,11 @@ const pool = mariadb.createPool({
 export const insert = async (query: string, prams?: any[]): Promise<number> => {
   const conn = await pool.getConnection();
   const res = await conn.query(query, prams);
-  console.log(res);
-
   return Number(res.insertId.toString());
 };
 
 export const executeQuery = async <T>(query: string, prams?: any[]): Promise<T> => {
   const conn = await pool.getConnection();
   const res = await conn.query(query, prams);
-  console.log(res);
-
   return res;
 };
