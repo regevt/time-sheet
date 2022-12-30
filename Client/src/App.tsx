@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import { Box, Tab, Tabs } from "@mui/material";
+import { Report } from "./Views/Reports/Report";
+import { WeekView } from "./Views/WeekView/WeekView";
 
 function App() {
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs centered value={selectedTabIndex} onChange={(_, value) => setSelectedTabIndex(value)} aria-label="basic tabs example">
+            <Tab label="Week View" />
+            <Tab label="Reports" />
+            <Tab label="Settings" />
+          </Tabs>
+        </Box>
+      </Box>
+      <div style={{ height: "calc(100% - 82px)", padding: "16px 24px", overflowX: "auto" }}>
+        {selectedTabIndex === 0 && <WeekView />}
+        {selectedTabIndex === 1 && <Report />}
+      </div>
     </div>
   );
 }

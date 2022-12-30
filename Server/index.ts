@@ -9,11 +9,13 @@ import listsRouter from "./src/lists/lists-router";
 import userRouter from "./src/Users/user-router";
 import taxAndRateRouter from "./src/TaxAndRates/tax-and-rates-router";
 import entriesRouter from "./src/Entries/entries-router";
+import invoiceRouter from "./src/Invoices/invoices-router";
 
 const app: Express = express();
 const port = Number(process.env.PORT) ?? 8080;
 app.use(bodyParser.json());
 app.use("/", express.static(path.join(__dirname, "public")));
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -24,6 +26,7 @@ app.use(companyRouter());
 app.use(listsRouter());
 app.use(taxAndRateRouter());
 app.use(entriesRouter());
+app.use(invoiceRouter());
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
